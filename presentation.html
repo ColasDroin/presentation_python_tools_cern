@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>
+      Python tools for the development, submission to clusters, and analysis of
+      Dynamic Aperture studies
+    </title>
+
+    <meta
+      name="description"
+      content="Python tools for the development, submission to clusters, and analysis of Dynamic Aperture studies"
+    />
+    <meta name="author" content="Colas Droin" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/moon.css" id="theme" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <a href="https://revealjs.com">
+            <img
+              src="assets/logo_cern.svg"
+              alt="reveal.js logo"
+              style="
+                height: 180px;
+                margin: 0 auto 4rem auto;
+                background: transparent;
+              "
+              class="demo-logo"
+            />
+          </a>
+          <h6>
+            Python tools for <span style="color: #00a5a5">D</span>ynamic
+            <span style="color: #00a5a5">A</span>perture studies
+          </h6>
+          <p>
+            <small>COLAS DROIN</small>
+            <small> - 08.11.2024</small>
+          </p>
+        </section>
+
+        <section data-markdown data-background="#eeeeee">
+          <script type="text/template">
+            ### Introduction
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <span style="color: #00a5a5">What</span> is a DA study?
+
+            <small>
+
+              Dynamic Aperture studies are used to <span style="color: #00a5a5;">optimize the beam lifetime</span> all along an accelerator cycle.
+
+            <img src="assets/scenario.png" alt="scenario" width="600"/>
+
+            It is known that parameters such as the tune, chromaticity, octupole intensities and
+            many others can have a significant impact on the beam lifetime.
+
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            #### <span style="color: #00a5a5">DA</span> is a good proxy for <span style="color: #00a5a5">beam lifetime</span>
+
+            <small>
+
+              It has been shown in 2019, in MD studies, that the DA correlates with the beam lifetime.
+
+            <img src="assets/correlation.png" alt="scenario" width="400"/>
+            <img src="assets/correlation_2.png" alt="scenario" width="400"/>
+
+            Therefore, the DA can be used to maximize the beam lifetime by optimizing the machine parameters.
+
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <span style="color: #00a5a5">How</span> is the DA computed?
+
+            <small>
+
+            Several formulas are available to compute the DA (<span style="color: orange;">all debatable...</span>).
+
+            We usually consider the <span style="color: #00a5a5">minimum DA</span>, i.e. the minimal amplitude of particles lost after tracking a sample distribution for a given number of turns.
+
+            <img src="assets/DA_def.png" alt="DA-def" width="300"/>
+
+            In practice, we consider <span style="color: #00a5a5">1280 particles</span> initially distributed according to <span style="color: #00a5a5">5 regular angles on the positive quadrant</span>, uniformly radially distributed, and we track them for <span style="color: #00a5a5">1M turns</span>.
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### How do we <span style="color: #00a5a5">optimize</span> the DA?
+
+            <small>
+
+            Short answer: <span style="color: orange;">brute force</span>.
+
+            <img src="assets/oct_scan_cropped.png" alt="tune-scan" width="400"/>
+
+            Very unelegant... but usual optimization algorithms are not efficient for this problem, since computing the DA gradient is expensive and it's easier to massively parallelize.
+
+            </small>
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ### How do we <span style="color: #00a5a5">optimize</span> the DA?
+
+            <small>
+
+            But <span style="color: green;">not a lost cause</span>. Probably the computational load could be reduced by a large factor using some smart DA precursors.
+
+            <span style="color: #00a5a5">Other consideration</span>: physicists like to have the full picture of the DA landscape, reducing the interest for optimizing the parameter space exploration.
+
+            &nbsp;
+            And finally, we already decrease (a bit) the computational load by:
+            - trying to minize the size of the regions to scan (e.g. half tune scan)
+            - adapting the range of amplitude we track (<span style="color: orange">tricky</span>)
+
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <span style="color: #00a5a5">Why</span>  are tools needed for the DA?
+
+            <small>
+
+            Many plots like this one must be produced regularly, sometimes with hard deadlines:
+
+            <img src="assets/tune_scan.png" alt="tune-scan" width="200"/>
+
+            ... But history has shown that problems almost always arise:
+
+            - <span style="color: orange">problem</span> with the Mad-X optics
+            - <span style="color: orange">problem</span> with the parametrization of the scan
+            - <span style="color: orange">problem</span> with the study code
+            - <span style="color: orange">problem</span> with Python dependencies or Xsuite upgrade
+            - <span style="color: orange">problem</span> with HTCondor
+            - <span style="color: orange">problem</span> with the postprocessing
+            - <span style="color: orange">problem</span> with the plotting
+
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <span style="color: #00a5a5">Why</span> are tools needed for the DA?
+
+            <small>
+
+            <img src="assets/tune_scan.png" alt="tune-scan" width="300"/>
+
+            Yet the scan itself can take <span style="color: orange">a couple of days to run</span>, and problems often reveal themselves afterwards... Meaning that one has to start all over again.
+
+            To anticipate and avoid these stressful situations, we need to have a <span style="color: #00a5a5">robust</span> and <span style="color: #00a5a5">reproducible</span> workflow.
+
+            In addition, not much documentation available for the uninitiated... and I'm leaving soon.
+
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <span style="color: #00a5a5">What</span> was available so far
+
+            <small>
+
+            For the past 2 years, to ease the process of DA studies, I have adapted some legacy code to develop and maintain [template DA studies](https://github.com/xsuite/DA_study_template), available on the Xsuite repository.
+
+            These templates have been very useful so far, and are stable, but they are not perfect, as:
+
+            - they are <span style="color: orange">hard to maintain</span>, since we have one template for each LHC version, with a lot of code redundancy across templates.
+            - they are <span style="color: orange">not so user-friendly</span>, since they must be modified extensively when doing a new study.
+            - they incoporate <span style="color: orange">redundancies in the parameter declaration</span>, leading to potential inconsistencies.
+            - they are <span style="color: orange">hard to adapt</span> for multigenerational scans (I'll come back to this).
+            - they are <span style="color: orange">tedious to work with</span> since several separate scripts must be run in a specific order, updating each of them manually.
+            - they are <span style="color: orange">not easily adaptable to build, configure and track a single collider</span>. Only scans.
+            - they are <span style="color: orange">not standardized</span> (open scripts), leading to inconsistencies propagating across the different scripts.
+            - they are <span style="color: orange">not so easy to setup</span> (not pip-installable) since they are open scripts.
+
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <span style="color: #00a5a5">What</span> was available so far
+
+            <small>
+
+            Other issues (which I could have solved with the templates but did not because of time):
+            - templates <span style="color: orange">do not incorporate tools for plotting</span>.
+            - templates have sometimes <span style="color: orange">unexpected compatibility issues with Xsuite</span> (or other dependencies), since no Continuous Integration (CI) pipeline is set up.
+
+            &nbsp;
+
+            The package that I'm going to present today, [study-DA](https://colasdroin.github.io/study-DA/index.html), aims at solving all these issues.
+
+            - It is <span style="color: #00a5a5">more user-friendly</span> and <span style="color: #00a5a5">easily flexible</span> while being more standardized.
+            - It will also be <span style="color: #00a5a5">more robust</span>, since it will be tested with a CI pipeline.
+            - It is more <span style="color: #00a5a5">easily maintainable</span>, since all the common code is now centralized in a given set of classes and functions.
+            - It <span style="color: #00a5a5">doesn't change the philosophy of the previous templates</span>, and can be thought of an additional meta-layer to the templates to ease the overall workflow.
+
+            </small>
+          </script>
+        </section>
+
+        <section data-markdown data-background="#eeeeee">
+          <script type="text/template">
+            ### Introducing <span style="color: #00a5a5">study-DA</span>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### What is <span style="color: #00a5a5">study-DA</span>
+
+            <small>
+
+              study-DA comprises everything needed to do a full DA study, through 4 main classes:
+
+              - <span style="color: #00a5a5">Generation</span>: Provides functions to generate, from template scripts and a configuration file, the dynamics aperture study as a multi-generational tree representing the various layers of the corresponding parametric scan.
+
+              - <span style="color: #00a5a5">Submission</span>: Allows seamless submission of the generated study locally and/or to computing clusters (mainly HTCondor), and the automatic retrieval of the results.
+
+              - <span style="color: #00a5a5">Postprocessing</span>: Provides functions to postprocess the raw results (usually `.parquet` files from tracking) and aggregate them into a Pandas `DataFrame`.
+
+              - <span style="color: #00a5a5">Plotting</span>: Provides functions to visualize the postprocessed results as 2D and 3D heatmaps.
+
+              It also includes template scripts for "usual" DA studies, configurations files for HL-LHC v1.6 and v1.3, and run III (including ions).
+
+              Finally, it includes code for building and configuring a collider, and tracking particles.
+
+            </small>
+          </script>
+        </section>
+
+        <section style="text-align: left" data-markdown>
+          <script type="text/template">
+            # THANK YOU
+
+            <span style="color: #00a5a5">Questions?</span> <span style="color: white">Suggestions?</span> <span style="color: green">Comments?</span>
+          </script>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/zoom/zoom.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/search/search.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // Also available as an ES module, see:
+      // https://revealjs.com/initialization/
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealZoom,
+          RevealNotes,
+          RevealSearch,
+          RevealMarkdown,
+          RevealHighlight,
+        ],
+      });
+    </script>
+  </body>
+</html>
