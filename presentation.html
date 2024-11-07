@@ -52,7 +52,7 @@
             <span style="color: #00a5a5">A</span>perture studies
           </h6>
           <p>
-            <small>COLAS DROIN</small>
+            <small>Colas Droin - INC section</small>
             <small> - 08.11.2024</small>
           </p>
         </section>
@@ -72,6 +72,7 @@
               Dynamic Aperture studies are used to <span style="color: #00a5a5;">optimize the beam lifetime</span> all along an accelerator cycle.
 
             <img src="assets/scenario.png" alt="scenario" width="600"/>
+            <figcaption style="font-size: small;">Adapted from Riccardo de Maria's code</figcaption>
 
             It is known that parameters such as the tune, chromaticity, octupole intensities and
             many others can have a significant impact on the beam lifetime.
@@ -90,6 +91,7 @@
 
             <img src="assets/correlation.png" alt="scenario" width="400"/>
             <img src="assets/correlation_2.png" alt="scenario" width="400"/>
+            <figcaption style="font-size: small;"><i>Incoherent Beam-Beam Effects and Lifetime Optimisation</i>, Pelegrini et al., 2019</figcaption>
 
             Therefore, the DA can be used to maximize the beam lifetime by optimizing the machine parameters.
 
@@ -116,20 +118,21 @@
 
         <section data-markdown>
           <script type="text/template">
-            ### How do we <span style="color: #00a5a5">optimize</span> the DA?
+            ### How do we <span style="color: #00a5a5">optimize</span> the parameters for the DA?
 
             <small>
 
             Short answer: <span style="color: orange;">brute force</span>.
 
             <img src="assets/oct_scan_cropped.png" alt="tune-scan" width="400"/>
-
+            
             Very unelegant... but usual optimization algorithms are not efficient for this problem, since computing the DA gradient is expensive and it's easier to massively parallelize.
 
             </small>
           </script>
         </section>
-        <section data-markdown>
+        
+        <!-- <section data-markdown>
           <script type="text/template">
             ### How do we <span style="color: #00a5a5">optimize</span> the DA?
 
@@ -146,7 +149,7 @@
 
             </small>
           </script>
-        </section>
+        </section> -->
 
         <section data-markdown>
           <script type="text/template">
@@ -159,14 +162,15 @@
             <img src="assets/tune_scan.png" alt="tune-scan" width="200"/>
 
             ... But history has shown that problems almost always arise:
-
-            - <span style="color: orange">problem</span> with the Mad-X optics
-            - <span style="color: orange">problem</span> with the parametrization of the scan
-            - <span style="color: orange">problem</span> with the study code
-            - <span style="color: orange">problem</span> with Python dependencies or Xsuite upgrade
-            - <span style="color: orange">problem</span> with HTCondor
-            - <span style="color: orange">problem</span> with the postprocessing
-            - <span style="color: orange">problem</span> with the plotting
+            <ul>
+              <li class="fragment"><span style="color: orange">problem</span> with the Mad-X optics files</li>
+              <li class="fragment"><span style="color: orange">problem</span> with the parametrization of the scan</li>
+              <li class="fragment"><span style="color: orange">problem</span> with the study code</li>
+              <li class="fragment"><span style="color: orange">problem</span> with Python dependencies or Xsuite upgrade</li>
+              <li class="fragment"><span style="color: orange">problem</span> with HTCondor</li>
+              <li class="fragment"><span style="color: orange">problem</span> with the postprocessing</li>
+              <li class="fragment"><span style="color: orange">problem</span> with the plotting</li>
+            </ul>
 
             </small>
           </script>
@@ -200,14 +204,16 @@
 
             These templates have been very useful so far, and are stable, but they are not perfect, as:
 
-            - they are <span style="color: orange">hard to maintain</span>, since we have one template for each LHC version, with a lot of code redundancy across templates.
-            - they are <span style="color: orange">not so user-friendly</span>, since they must be modified extensively when doing a new study.
-            - they incoporate <span style="color: orange">redundancies in the parameter declaration</span>, leading to potential inconsistencies.
-            - they are <span style="color: orange">hard to adapt</span> for multigenerational scans (I'll come back to this).
-            - they are <span style="color: orange">tedious to work with</span> since several separate scripts must be run in a specific order, updating each of them manually.
-            - they are <span style="color: orange">not easily adaptable to build, configure and track a single collider</span>. Only scans.
-            - they are <span style="color: orange">not standardized</span> (open scripts), leading to inconsistencies propagating across the different scripts.
-            - they are <span style="color: orange">not so easy to setup</span> (not pip-installable) since they are open scripts.
+            <ul>
+              <li class="fragment"><span style="color: orange">hard to maintain</span>, since we have one template for each LHC version, with a lot of code redundancy across templates.</li>
+              <li class="fragment"><span style="color: orange">not so user-friendly</span>, since they must be modified extensively when doing a new study.</li>
+              <li class="fragment"><span style="color: orange">redundancies in the parameter declaration</span>, leading to potential inconsistencies.</li>
+              <li class="fragment"><span style="color: orange">hard to adapt</span> for multigenerational scans (I'll come back to this).</li>
+              <li class="fragment"><span style="color: orange">tedious to work with</span> since several separate scripts must be run in a specific order, updating each of them manually.</li>
+              <li class="fragment"><span style="color: orange">not easily adaptable to build, configure and track a single collider</span>. Only scans.</li>
+              <li class="fragment"><span style="color: orange">not standardized</span> (open scripts), leading to inconsistencies propagating across the different scripts.</li>
+              <li class="fragment"><span style="color: orange">not so easy to setup</span> (not pip-installable) since they are open scripts.</li>
+            </ul>
 
             </small>
           </script>
@@ -225,12 +231,14 @@
 
             &nbsp;
 
-            The package that I'm going to present today, [study-DA](https://colasdroin.github.io/study-DA/index.html), aims at solving all these issues.
+            [study-DA](https://colasdroin.github.io/study-DA/index.html), aims at solving, or at least improving, all these issues. Being:
 
-            - It is <span style="color: #00a5a5">more user-friendly</span> and <span style="color: #00a5a5">easily flexible</span> while being more standardized.
-            - It will also be <span style="color: #00a5a5">more robust</span>, since it will be tested with a CI pipeline.
-            - It is more <span style="color: #00a5a5">easily maintainable</span>, since all the common code is now centralized in a given set of classes and functions.
-            - It <span style="color: #00a5a5">doesn't change the philosophy of the previous templates</span>, and can be thought of an additional meta-layer to the templates to ease the overall workflow.
+            <ul>
+              <li class="fragment"><span style="color: #00a5a5">user-friendly</span> and <span style="color: #00a5a5">flexible</span>, while keeping some degree of standardization</li>
+              <li class="fragment"><span style="color: #00a5a5">easily maintainable</span>, since all the common code is now centralized in a given set of classes and functions.</li>
+              <li class="fragment">consequently <span style="color: #00a5a5">more robust</span>, and hopefully tested regularly with a CI pipeline.</li>
+              <li class="fragment"><span style="color: #00a5a5">doesn't change the philosophy of the previous templates</span>, and can be thought of an additional meta-layer to the templates to ease the overall workflow.</li>
+            </ul>
 
             </small>
           </script>
@@ -250,17 +258,24 @@
 
               study-DA comprises everything needed to do a full DA study, through 4 main classes:
 
-              - <span style="color: #00a5a5">Generation</span>: Provides functions to generate, from template scripts and a configuration file, the dynamics aperture study as a multi-generational tree representing the various layers of the corresponding parametric scan.
+              <ul>
+                <li class="fragment">
+                  <span style="color: #00a5a5">Generation</span>: Provides functions to generate, from template scripts and a configuration file, the dynamics aperture study as a multi-generational tree representing the various layers of the corresponding parametric scan.
+                </li>
+                <li class="fragment">
+                  <span style="color: #00a5a5">Submission</span>: Allows seamless submission of the generated study locally and/or to computing clusters (mainly HTCondor), and the automatic retrieval of the results.
+                </li>
+                <li class="fragment">
+                  <span style="color: #00a5a5">Postprocessing</span>: Provides functions to postprocess the raw results (usually `.parquet` files from tracking) and aggregate them into a Pandas `DataFrame`.
+                </li>
+                <li class="fragment">
+                  <span style="color: #00a5a5">Plotting</span>: Provides functions to visualize the postprocessed results as 2D and 3D heatmaps.
+                </li>
+              </ul>
 
-              - <span style="color: #00a5a5">Submission</span>: Allows seamless submission of the generated study locally and/or to computing clusters (mainly HTCondor), and the automatic retrieval of the results.
+              <span class="fragment">It also includes template scripts for "usual" DA studies, configurations files for HL-LHC v1.6 and v1.3, and run III (including ions). </span>
 
-              - <span style="color: #00a5a5">Postprocessing</span>: Provides functions to postprocess the raw results (usually `.parquet` files from tracking) and aggregate them into a Pandas `DataFrame`.
-
-              - <span style="color: #00a5a5">Plotting</span>: Provides functions to visualize the postprocessed results as 2D and 3D heatmaps.
-
-              It also includes template scripts for "usual" DA studies, configurations files for HL-LHC v1.6 and v1.3, and run III (including ions).
-
-              Finally, it includes code for building and configuring a collider, and tracking particles.
+              <span class="fragment">Finally, it includes code for building and configuring a collider, and tracking particles. </span>
 
             </small>
           </script>
@@ -273,21 +288,17 @@
             <small>
             The workflow of study DA is usually the following:
 
-            1. Create/adapt a <span style="color: #00a5a5">configuration file for the parameters</span> of your study (optics, knobs, etc.).
+            <ol>
+              <li class="fragment" style="margin-bottom: 1rem;">Create/adapt a <span style="color: #00a5a5">configuration file for the parameters</span> of your study (optics, knobs, etc.).</li>
+              <li class="fragment" style="margin-bottom: 1rem;">Create your studies as a <span style="color: #00a5a5">set of Python scripts</span>: A, B, C... such that B depends on the output of A, C depends on the output of B (and potentially C), etc. All of these scripts use the <span style="color: #00a5a5">same configuration file</span>.</li>
+              <li class="fragment" style="margin-bottom: 1rem;">Create a <span style="color: #00a5a5">configuration file for the scan</span> for the parameters, for each script (i.e. generation).</li>
+              <li class="fragment" style="margin-bottom: 1rem;"><span style="color: #00a5a5">Generate your study as a tree</span>, scanning the adequate parameters at each generation, and using the corresponding scripts.</li>
+              <li class="fragment" style="margin-bottom: 1rem;"><span style="color: #00a5a5">Submit</span> your scripts as jobs (locally or to the cluster).</li>
+              <li class="fragment" style="margin-bottom: 1rem;"><span style="color: #00a5a5">Aggregate the results</span> of the scripts.</li>
+              <li class="fragment" style="margin-bottom: 1rem;">Do the analysis and <span style="color: #00a5a5">plot</span>.</li>
+            </ol>
 
-            2. Create your studies as a <span style="color: #00a5a5">set of Python scripts</span>: A, B, C... such that B depends on the output of A, C depends on the output of B (and potentially C), etc. All of these scripts use the <span style="color: #00a5a5">same configuration file</span>.
-
-            3. Create a <span style="color: #00a5a5">configuration file for the scan</span> for the parameters, for each script (i.e. generation).
-
-            4. <span style="color: #00a5a5">Generate your study as a tree</span>, scanning the adequate parameters at each generation, and using the corresponding scripts.
-
-            5. <span style="color: #00a5a5">Submit</span> your scripts as jobs (locally or to the cluster).
-
-            6. <span style="color: #00a5a5">Aggregate the results</span> of the scripts.
-
-            7. Do the analysis and <span style="color: #00a5a5">plot</span>.
-
-            Let's consider practical examples to better understand.
+            <span class="fragment">Let's consider practical examples to better understand.</span>
             
             </small>
           </script>
@@ -808,7 +819,7 @@
 
         <section data-markdown data-auto-animate>
           <script type="text/template">
-            ### Tutorial: <span style="color: #00a5a5">generation</span>
+            ### Tutorial: <span style="color: #00a5a5">submission</span>
 
             <small>
               
@@ -1846,6 +1857,139 @@
         <img src="assets/tune_scan.png" alt="tune_scan" width="400"/>
       </script>
 
+    </section>
+
+    <section data-markdown data-auto-animate>
+      <script type="text/template">
+        ### A practical <span style="color: #00a5a5">example</span>
+
+        <small>
+          
+          <span style="color: #00a5a5">Building and configuring collider</span> (not doing a scan) can be done in one simple script 
+          (assuming the collider configuration `local_config.yaml` is ready):
+
+          <pre style="width: 100%;"
+          data-id="code-animation"
+        ><code class="hljs python" data-trim data-line-numbers="" style="max-height: 38vh;"><script type="text/template">
+
+          # ==================================================================================================
+          # --- Imports
+          # ==================================================================================================
+          
+          # Import standard library modules
+          import os
+          
+          # Import third-party modules
+          # Import user-defined modules
+          from study_da import create_single_job, submit
+          from study_da.utils import (
+              load_template_configuration_as_dic,
+              write_dic_to_path,
+          )
+                    
+          # ==================================================================================================
+          # --- Script to generate a study
+          # ==================================================================================================
+          
+          # Generate the study in the local directory
+          path_tree = create_single_job(
+              name_main_configuration="local_config.yaml",
+              name_executable_generation_1="generation_1.py",
+              name_executable_generation_2="generation_2_level_by_nb.py",
+              name_study="single_job_study_hllhc16",
+          )
+                    
+          # ==================================================================================================
+          # --- Script to submit the study
+          # ==================================================================================================
+                              
+          # In case gen_1 is submitted locally, add a command to remove unnecessary files
+          dic_additional_commands_per_gen = {
+              1: "rm -rf final_* modules optics_repository optics_toolkit tools tracking_tools temp "
+              "mad_collider.log __pycache__ twiss* errors fc* optics_orbit_at* \n",
+              2: "",
+          }
+          
+          # Submit the study
+          submit(
+              path_tree=path_tree,
+              path_python_environment="/afs/cern.ch/work/c/cdroin/private/study-DA/.venv",
+              name_config=local_config_name,
+              dic_additional_commands_per_gen=dic_additional_commands_per_gen,
+              keep_submit_until_done=True,
+              wait_time=1,
+          )
+          
+        </script></code></pre>
+
+        </small>
+      </script>
+    </section>
+
+    <section data-markdown>
+      <script type="text/template">
+        ### State of the code for study-DA
+
+        <small>
+
+        <ul style="text-align: left; list-style-type: none;">
+          <li style="margin-bottom: 10px;">🟤 Code close to stable (still adding few features)</li>
+          <li style="margin-bottom: 10px;">🟢 Fully commented with type hints and docstrings</li>
+            <li style="margin-bottom: 10px;">🟢 <a href="https://colasdroin.github.io/study-DA/">Fully documented</a> with tutorials and examples (that acted as test cases)</li>
+          <li style="margin-bottom: 10px;">🟤 Basic CI implemented with GitHub Actions to check if a single collider can be built and configured</li>
+          <li style="margin-bottom: 10px;">🟠 No unit tests (but that's maybe overkill)</li>
+          <li style="margin-bottom: 10px;">🟠 No careful troubleshooting. Not used by anyone yet.</li>
+          <li style="margin-bottom: 10px;">🟢 Package available on PyPI</li>
+        </ul>
+
+        </small>
+      </script>
+    </section>
+
+    <section data-markdown data-background="#eeeeee">
+      <script type="text/template">
+        ### A short demo of <span style="color: #00a5a5">collider-dashboard</span>
+      </script>
+    </section>
+
+    <section data-markdown data-auto-animate>
+      <script type="text/template">
+        ### A short demo of <span style="color: #00a5a5">collider-dashboard</span>
+
+        <small>
+          
+          Once you've built and configured your collider, you can visualize it with [collider-dashboard](http://128.141.185.229:8080) (also available on PyPI, you can check the [repo](https://github.com/ColasDroin/collider-dashboard) which contains info to get you started).:
+
+          <pre style="width: 100%;"
+          data-id="code-animation"
+        ><code class="hljs bash" data-trim style="max-height: 38vh;"><script type="text/template">
+        
+          python -m collider_dashboard -c path_to_collider_file_for_tracking.json
+
+        </script></code></pre>
+
+        </small>
+      </script>
+    </section>
+
+    <section data-background-iframe="http://127.0.0.1:8080" data-background-interactive>
+      <div
+      style="
+        position: absolute;
+        width: 40%;
+        right: 0;
+        top: 500px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5),
+          0 5px 25px rgba(0, 0, 0, 0.2);
+        background-color: rgba(0, 0, 0, 0.9);
+        color: #fff;
+        padding: 20px;
+        font-size: 20px;
+        text-align: left;
+      "
+    >
+      <h2>Collider-dashboard demo</h2>
+    </div>
     </section>
 
         <section style="text-align: left" data-markdown>
