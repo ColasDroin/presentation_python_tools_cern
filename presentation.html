@@ -57,6 +57,21 @@
           </p>
         </section>
 
+        <section data-markdown>
+          <script type="text/template">
+            ### Outline
+
+              <ul style="text-align: left; list-style-type: none;">
+                <li style="margin-bottom: 10px; margin-top: 20px;"><small><span style="color: #00a5a5">1.</span> Introduction to DA and DA studies</small></li>
+                <li style="margin-bottom: 10px;"><small><span style="color: #00a5a5">2.</span> Introduction to study-DA</small></li>
+                <li style="margin-bottom: 10px;"><small><span style="color: #00a5a5">3.</span> Tutorial and practical example of a DA study</small></li>
+                <li style="margin-bottom: 10px;"><small><span style="color: #00a5a5">4.</span> Collider-dashboard demo</small></li>
+                <li style="margin-bottom: 10px;"><small><span style="color: #00a5a5">5.</span> Conclusion</small></li>
+              </ul>
+
+          </script>
+        </section>
+
         <section data-markdown data-background="#eeeeee">
           <script type="text/template">
             ### Introduction
@@ -94,6 +109,8 @@
             <figcaption style="font-size: small;"><i>Incoherent Beam-Beam Effects and Lifetime Optimisation</i>, Pelegrini et al., 2019</figcaption>
 
             Therefore, the DA can be used to maximize the beam lifetime by optimizing the machine parameters.
+
+            (or check that a given configuration is viable)
 
             </small>
           </script>
@@ -225,7 +242,7 @@
 
             <small>
 
-            Other issues (which I could have solved with the templates but did not because of time):
+            Other issues (not specific to these templates):
             - templates <span style="color: orange">do not incorporate tools for plotting</span>.
             - templates have sometimes <span style="color: orange">unexpected compatibility issues with Xsuite</span> (or other dependencies), since no Continuous Integration (CI) pipeline is set up.
 
@@ -260,7 +277,7 @@
 
               <ul>
                 <li class="fragment">
-                  <span style="color: #00a5a5">Generation</span>: Provides functions to generate, from template scripts and a configuration file, the dynamics aperture study as a multi-generational tree representing the various layers of the corresponding parametric scan.
+                  <span style="color: #00a5a5">Generation</span>: Provides functions to generate, from template scripts and a configuration file, the DA study as a tree representing the layers of the parametric scan.
                 </li>
                 <li class="fragment">
                   <span style="color: #00a5a5">Submission</span>: Allows seamless submission of the generated study locally and/or to computing clusters (mainly HTCondor), and the automatic retrieval of the results.
@@ -274,8 +291,6 @@
               </ul>
 
               <span class="fragment">It also includes template scripts for "usual" DA studies, configurations files for HL-LHC v1.6 and v1.3, and run III (including ions). </span>
-
-              <span class="fragment">Finally, it includes code for building and configuring a collider, and tracking particles. </span>
 
             </small>
           </script>
