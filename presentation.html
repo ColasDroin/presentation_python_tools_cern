@@ -296,6 +296,7 @@
           </script>
         </section>
 
+        <section>
         <section data-markdown>
           <script type="text/template">
             ### Understanding the workflow
@@ -304,26 +305,32 @@
             The workflow of study DA is usually the following:
 
             <ol>
-              <li class="fragment" style="margin-bottom: 1rem;">Create/adapt a <span style="color: #00a5a5">configuration file for the parameters</span> of your study (optics, knobs, etc.).</li>
-              <li class="fragment" style="margin-bottom: 1rem;">Create your studies as a <span style="color: #00a5a5">set of Python scripts</span>: A, B, C... such that B depends on the output of A, C depends on the output of B (and potentially C), etc. All of these scripts use the <span style="color: #00a5a5">same configuration file</span>.</li>
-              <li class="fragment" style="margin-bottom: 1rem;">Create a <span style="color: #00a5a5">configuration file for the scan</span> for the parameters, for each script (i.e. generation).</li>
-              <li class="fragment" style="margin-bottom: 1rem;"><span style="color: #00a5a5">Generate your study as a tree</span>, scanning the adequate parameters at each generation, and using the corresponding scripts.</li>
-              <li class="fragment" style="margin-bottom: 1rem;"><span style="color: #00a5a5">Submit</span> your scripts as jobs (locally or to the cluster).</li>
-              <li class="fragment" style="margin-bottom: 1rem;"><span style="color: #00a5a5">Aggregate the results</span> of the scripts.</li>
-              <li class="fragment" style="margin-bottom: 1rem;">Do the analysis and <span style="color: #00a5a5">plot</span>.</li>
+              <li style="margin-bottom: 1rem;">Create/adapt a <span style="color: #00a5a5">configuration file for the parameters</span> of your study (optics, knobs, etc.).</li>
+              <li style="margin-bottom: 1rem;">Create your studies as a <span style="color: #00a5a5">set of Python scripts</span>: A, B, C... such that B depends on the output of A, C depends on the output of B (and potentially C), etc. All of these scripts use the <span style="color: #00a5a5">same configuration file</span>.</li>
+              <li style="margin-bottom: 1rem;">Create a <span style="color: #00a5a5">configuration file for the scan</span> for the parameters, for each script (i.e. generation).</li>
+              <li style="margin-bottom: 1rem;"><span style="color: #00a5a5">Generate your study as a tree</span>, scanning the adequate parameters at each generation, and using the corresponding scripts.</li>
+              <li style="margin-bottom: 1rem;"><span style="color: #00a5a5">Submit</span> your scripts as jobs (locally or to the cluster).</li>
+              <li style="margin-bottom: 1rem;"><span style="color: #00a5a5">Aggregate the results</span> of the scripts.</li>
+              <li style="margin-bottom: 1rem;">Do the analysis and <span style="color: #00a5a5">plot</span>.</li>
             </ol>
 
-            <span class="fragment">Let's consider practical examples to better understand.</span>
+            <span>Let's consider practical examples to better understand.</span>
             
             </small>
           </script>
         </section>
+      
+
+        <section data-background="assets/figure_presentation.png">
+        </section>
+      </section>
 
         <section data-markdown data-background="#eeeeee">
           <script type="text/template">
             ### A small <span style="color: #00a5a5">tutorial</span>
           </script>
         </section>
+      
 
         <section data-markdown data-auto-animate>
           <script type="text/template">
