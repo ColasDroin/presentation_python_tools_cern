@@ -143,7 +143,7 @@
 
             <img src="assets/oct_scan_cropped.png" alt="tune-scan" width="400"/>
             
-            Very unelegant... but usual optimization algorithms are not efficient for this problem, since computing the DA gradient is expensive and it's easier to massively parallelize.
+            Unelegant... but usual optimization algorithms are not efficient for this problem, since computing the DA gradient is expensive and it's easier to massively parallelize.
 
             </small>
           </script>
@@ -1462,7 +1462,7 @@
 
           <pre style="width: 100%;"
           data-id="code-animation"
-        ><code class="hljs python" data-trim data-line-numbers="|32-106|109-146|159-160|167-189" style="max-height: 38vh;"><script type="text/template">
+        ><code class="hljs python" data-trim data-line-numbers="|32-106|109-146|157-158|165-187" style="max-height: 38vh;"><script type="text/template">
 
           """This is a template script for generation 2 of simulation study, in which ones configures a collider
           and tracks a given particle distribution."""
@@ -1515,9 +1515,7 @@
               xc.install_beam_beam_wrapper(collider)
           
               # Build trackers
-              # For now, start with CPU tracker due to a bug with Xsuite
-              # Refer to issue https://github.com/xsuite/xsuite/issues/450
-              collider.build_trackers()  # (_context=context)
+              collider.build_trackers()
           
               # Set knobs
               xc.set_knobs(collider)
@@ -1956,9 +1954,12 @@
 
         <ul style="text-align: left; list-style-type: none;">
           <li style="margin-bottom: 10px;">🟤 Code close to stable (still adding few features)</li>
-          <li style="margin-bottom: 10px;">🟢 Fully commented with type hints and docstrings</li>
-            <li style="margin-bottom: 10px;">🟢 <a href="https://colasdroin.github.io/study-DA/">Fully documented</a> with tutorials and examples (that acted as test cases)</li>
-          <li style="margin-bottom: 10px;">🟤 Basic CI implemented with GitHub Actions to check if a single collider can be built and configured</li>
+          <li>🟢 Fully commented with type hints and docstrings</li>
+          <li>🟢 <a href="https://colasdroin.github.io/study-DA/">Fully documented</a> with tutorials and examples (that acted as test cases)</li>
+            <li style="margin-bottom: 10px; display: flex; align-items: center;">
+            🟤 Basic CI implemented to check if a single collider can be built and configured 
+            <img src="assets/meme_farmer.jpg" alt="meme_farmer" style="width: 100px; margin-left: 10px;" />
+            </li>
           <li style="margin-bottom: 10px;">🟠 No unit tests (but that's maybe overkill)</li>
           <li style="margin-bottom: 10px;">🟠 No careful troubleshooting. Not used by anyone yet.</li>
           <li style="margin-bottom: 10px;">🟢 Package available on PyPI</li>
@@ -1980,7 +1981,7 @@
 
         <small>
           
-          Once you've built and configured your collider, you can visualize it with [collider-dashboard](http://128.141.185.229:8080) (also available on PyPI, you can check the [repo](https://github.com/ColasDroin/collider-dashboard) which contains info to get you started).:
+          Once you've built and configured your collider, you can visualize it with [collider-dashboard](http://128.141.185.229:8080) (also available on PyPI, you can check the [repo](https://github.com/ColasDroin/collider-dashboard) which contains info to get you started):
 
           <pre style="width: 100%;"
           data-id="code-animation"
